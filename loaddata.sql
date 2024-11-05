@@ -39,7 +39,7 @@ CREATE TABLE "Posts" (
   "image_url" varchar,
   "content" varchar,
   "approved" bit,
-  FOREIGN KEY(`user_id`) REFERENCES `Users`(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES `Users`(`id`)
 );
 
 CREATE TABLE "Comments" (
@@ -88,3 +88,64 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
+
+INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content') VALUES (1, 1, 'Test', '2024-11-04', 'https://www.test.com/test', 'Test')
+
+INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url', 'created_on', 'active') VALUES ('Cody', 'Keener', 'codymkeener@gmail.com', 'Wow', 'ckeener', 'test', 'https://www.test.com/test-image', '2024-11-04', 1)
+
+SELECT * FROM Users
+
+SELECT
+        p.id,
+        p.user_id,
+        p.category_id,
+        p.title,
+        p.publication_date,
+        p.image_url,
+        p.content,
+        p.approved,
+        c.id categoryId,
+        c.label,
+        u.id userId,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.bio,
+        u.username,
+        u.password,
+        u.profile_image_url,
+        u.created_on,
+        u.active
+    From Posts p
+    LEFT JOIN Categories c
+        ON p.category_id = c.id
+    LEFT JOIN Users u
+        ON p.user_id = u.id
+
+SELECT
+        p.id,
+        p.user_id,
+        p.category_id,
+        p.title,
+        p.publication_date,
+        p.image_url,
+        p.content,
+        p.approved,
+        c.id categoryId,
+        c.label,
+        u.id userId,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.bio,
+        u.username,
+        u.password,
+        u.profile_image_url,
+        u.created_on,
+        u.active
+    FROM Posts p
+    LEFT JOIN Categories c
+        ON p.category_id = c.id
+    LEFT JOIN Users u
+        ON p.user_id = u.id
+    WHERE p.id = 1
