@@ -43,7 +43,7 @@ def get_all_posts():
     
     for row in dataset:
       
-      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'])
+      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
       
       # category = Category(row['categoryId'], row['label'])
       
@@ -95,7 +95,7 @@ def get_single_post(id):
     
     data = db_cursor.fetchone()
     
-    post = Post(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'])
+    post = Post(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'], data['approved'])
       
     # category = Category(data['categoryId'], data['label'])
     
@@ -131,7 +131,7 @@ def delete_post(id):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-      DELETE From Posts
+      DELETE FROM Posts
       WHERE id = ?
     """, ( id, ))
 
@@ -141,16 +141,17 @@ def update_post(id, new_post):
     db_cursor = conn.cursor()
     
     db_cursor.execute("""
-      UPDATE Posts
+    UPDATE Posts
+      SET
         user_id = ?,
         category_id = ?,
         title = ?,
         publication_date = ?,
         image_url = ?,
-        content = ?)
-      VALUES
-        ( ?, ?, ?, ?, ?, ? )
-    """, (new_post['user_id'], new_post['category_id'], new_post['title'], new_post['publication_date'], new_post['image_url'], new_post['content'], id, ))
+        content = ?,
+        approved = ?
+    WHERE id = ?
+    """, (new_post['user_id'], new_post['category_id'], new_post['title'], new_post['publication_date'], new_post['image_url'], new_post['content'], new_post['approved'], id, ))
 
     rows_affected = db_cursor.rowcount
     
@@ -201,7 +202,7 @@ def get_post_by_category(categoryId):
     
     for row in dataset:
       
-      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'])
+      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
       
       # category = Category(row['categoryId'], row['label'])
       
@@ -257,7 +258,7 @@ def get_posts_by_user(userId):
     
     for row in dataset:
       
-      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'])
+      post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
       
       # category = Category(row['categoryId'], row['label'])
       
