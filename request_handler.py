@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse, parse_qs
 
-from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post, get_all_tags, get_single_tag, get_tags_by_post
+from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post, get_all_tags, get_single_tag, get_tags_by_post, create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -122,6 +122,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             
         if resource == 'posts':
             response = create_post(post_body)
+            
+        if resource == 'tags':
+            response = create_tag(post_body)
 
         self.wfile.write(json.dumps(response).encode())
 
