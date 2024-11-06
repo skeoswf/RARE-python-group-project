@@ -1,6 +1,6 @@
 class Post():
   
-  def __init__(self, id, user_id, category_id, title, publication_date, image_url, content ):
+  def __init__(self, id, user_id, category_id, title, publication_date, image_url, content, approved=None ):
     self.id = id
     self.user_id = user_id
     self.category_id = category_id
@@ -8,6 +8,6 @@ class Post():
     self.publication_date = publication_date
     self.image_url = image_url
     self.content = content
-    self.approved = 0
+    self.approved = approved if approved is not None else 0
     self.category = None
     self.user = None
