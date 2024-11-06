@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse, parse_qs
 
-from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post
+from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post, get_all_tags, get_single_tag, get_tags_by_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -84,6 +84,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_post(id)
                 else:
                     response = get_all_posts()
+                
+            if resource == 'tags':
+                if id is not None:
+                    response = get_single_tag(id)
+                else:
+                    response = get_all_tags()
                     
         else:
             (resource, query) = parsed
@@ -93,6 +99,9 @@ class HandleRequests(BaseHTTPRequestHandler):
                 
             if resource == 'posts' and query.get('user_id'):
                 response = get_posts_by_user(query['user_id'][0])
+                
+            if resource == 'tags' and query.get('post_id'):
+                response = get_tags_by_post(query['post_id'][0])
                 
         self.wfile.write(json.dumps(response).encode())
                 

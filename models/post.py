@@ -8,6 +8,6 @@ class Post():
     self.publication_date = publication_date
     self.image_url = image_url
     self.content = content
-    self.approved = approved if approved is not None else 0
+    self.approved = approved if approved is not None else 1
     self.category = None
     self.user = None
