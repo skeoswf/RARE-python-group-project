@@ -91,7 +91,7 @@ INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.c
 
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content') VALUES (1, 1, 'Test', '2024-11-04', 'https://www.test.com/test', 'Test')
 
-INSERT INTO Users ('first_name', 'last_name', 'email', 'bio', 'username', 'password', 'profile_image_url', 'created_on', 'active') VALUES ('Cody', 'Keener', 'codymkeener@gmail.com', 'Wow', 'ckeener', 'test', 'https://www.test.com/test-image', '2024-11-04', 1)
+INSERT INTO Users (first_name, last_name, email, bio, username, password, profile_image_url, created_on, active) VALUES ('Cody', 'Keener', 'codymkeener@gmail.com', 'Wow', 'ckeener', 'test', 'https://www.test.com/test-image', '2024-11-04', 1)
 
 SELECT * FROM Users
 
