@@ -1,4 +1,3 @@
-
 from .user_requests import (
     create_user,
     login_user,
@@ -37,3 +36,8 @@ from .comment_requests import (
   delete_comment
 )
 
+from .category_requests import (
+  get_all_categories,
+  create_category,
+  get_single_category
+)

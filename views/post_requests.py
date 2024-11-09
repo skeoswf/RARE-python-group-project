@@ -3,7 +3,7 @@ from models import Post
 # , Category, User
 
 def get_all_posts():
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     conn.row_factory = sqlite3.Row
     db_cursor = conn.cursor()
@@ -58,7 +58,7 @@ def get_all_posts():
   return posts
 
 def get_single_post(id):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     conn.row_factory = sqlite3.Row
     db_cursor = conn.cursor()
@@ -108,7 +108,7 @@ def get_single_post(id):
   return post.__dict__
 
 def create_post(new_post):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     db_cursor = conn.cursor()
     
@@ -126,7 +126,7 @@ def create_post(new_post):
   return new_post
 
 def delete_post(id):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     db_cursor = conn.cursor()
     
@@ -136,7 +136,7 @@ def delete_post(id):
     """, ( id, ))
 
 def update_post(id, new_post):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     db_cursor = conn.cursor()
     
@@ -161,7 +161,7 @@ def update_post(id, new_post):
     return True
 
 def get_post_by_category(categoryId):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     conn.row_factory = sqlite3.Row
     db_cursor = conn.cursor()
@@ -217,7 +217,7 @@ def get_post_by_category(categoryId):
   return posts
 
 def get_posts_by_user(userId):
-  with sqlite3.connect("./rare.sqlite3") as conn:
+  with sqlite3.connect("./db.sqlite3") as conn:
     
     conn.row_factory = sqlite3.Row
     db_cursor = conn.cursor()
