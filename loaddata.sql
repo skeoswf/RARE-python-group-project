@@ -99,6 +99,10 @@ INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 1)
 INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 3)
 INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 5)
 
+INSERT INTO Posts ('author_id', 'post_id', 'content') 
+
+SELECT * FROM PostTags
+
 SELECT * FROM Tags
 
 SELECT
@@ -165,6 +169,18 @@ SELECT
     JOIN PostTags pt
       ON t.id = pt.tag_id
     WHERE pt.post_id = 1
+
+SELECT
+        m.id,
+        m.content,
+        u.id authorId,
+        p.id postId
+    From Comments m
+    LEFT JOIN Users u
+        ON m.author_id = u.id
+    LEFT JOIN Posts p
+        ON m.post_id = p.id      
+
 
 SELECT
         p.id,
