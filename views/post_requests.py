@@ -1,5 +1,5 @@
 import sqlite3
-from models import Post
+from models import Post, Tag
 # , Category, User
 
 def get_all_posts():
@@ -7,6 +7,7 @@ def get_all_posts():
     
     conn.row_factory = sqlite3.Row
     db_cursor = conn.cursor()
+    tags_db_cursor = conn.cursor()
     
     db_cursor.execute("""
     SELECT
@@ -36,6 +37,44 @@ def get_all_posts():
     LEFT JOIN Users u
         ON p.user_id = u.id
     """)
+    
+    tags_db_cursor.execute("""
+    SELECT
+        p.id,
+        p.user_id,
+        p.category_id,
+        p.title,
+        p.publication_date,
+        p.image_url,
+        p.content,
+        p.approved,
+        c.id categoryId,
+        c.label categoryLabel,
+        u.id userId,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.bio,
+        u.username,
+        u.password,
+        u.profile_image_url,
+        u.created_on,
+        u.active,
+        pt.id postTagId,
+        pt.post_id,
+        pt.tag_id,
+        t.id tagId,
+        t.label tagLabel
+    FROM Posts p
+    LEFT JOIN Categories c
+        ON p.category_id = c.id
+    LEFT JOIN Users u
+        ON p.user_id = u.id
+    LEFT JOIN PostTags pt
+      ON  pt.post_id = p.id
+    LEFT JOIN Tags t
+      ON t.id = pt.tag_id
+    """)
 
     posts = []
     
@@ -52,6 +91,17 @@ def get_all_posts():
       # post.category = category.serialized()
       
       # post.user = user.serialized()
+      
+      tagDataset = tags_db_cursor.fetchall()
+    
+      tags = []
+      
+      for tagRow in tagDataset:
+        if tagRow['post_id'] == row['id']:
+          tag = Tag(tagRow['tagId'], tagRow['tagLabel'])
+          tags.append(tag.__dict__)
+        
+      post.tags = tags
       
       posts.append(post.__dict__)
       
@@ -90,6 +140,10 @@ def get_single_post(id):
         ON p.category_id = c.id
     LEFT JOIN Users u
         ON p.user_id = u.id
+    LEFT JOIN PostTags pt
+      ON  pt.post_id = p.id
+    LEFT JOIN Tags t
+      ON t.id = pt.tag_id
     WHERE p.id = ?
     """, ( id, ))
     

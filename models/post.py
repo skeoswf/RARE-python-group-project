@@ -11,3 +11,4 @@ class Post():
     self.approved = approved if approved is not None else 1
     self.category = None
     self.user = None
+    self.tags = None
