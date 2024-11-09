@@ -2,8 +2,34 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse, parse_qs
 
-from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post
-from views import create_comment, get_all_comments, get_single_comment, get_comment_by_user, get_comment_by_post, update_comment, delete_comment
+from views import (
+    login_user,
+    create_user,
+    create_post,
+    create_tag,
+    create_comment,
+    get_all_users,
+    get_all_posts,
+    get_all_tags,
+    get_all_comments,
+    get_single_user,
+    get_single_post,
+    get_single_tag,
+    get_single_comment,
+    get_post_by_category,
+    get_posts_by_user,
+    get_tags_by_post,
+    get_comment_by_user,
+    get_comment_by_post,
+    update_user,
+    update_post,
+    update_tag,
+    update_comment,
+    delete_user,
+    delete_post,
+    delete_tag,
+    delete_comment
+)
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
@@ -26,7 +52,7 @@ class HandleRequests(BaseHTTPRequestHandler):
     #         except (IndexError, ValueError):
     #             pass
     #         return (resource, id)
-    
+
     # parse_url from kennels
     def parse_url(self, path):
         """Parse the url into the resource and id"""
@@ -71,32 +97,47 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         """Handle Get requests to the server"""
         self._set_headers(200)
-        
+
         response = {}
-        
+
         parsed = self.parse_url(self.path)
-        
+
         if '?' not in self.path:
-            ( resource, id ) = parsed
-            
+            (resource, id) = parsed
+
             if resource == 'posts':
                 if id is not None:
                     response = get_single_post(id)
                 else:
                     response = get_all_posts()
+
+
+            if resource == "users":
+                if id is not None:
+                    response = get_single_user(id)
+                else:
+                    response = get_all_users()
+
+                
+            if resource == 'tags':
+                if id is not None:
+                    response = get_single_tag(id)
+                else:
+                    response = get_all_tags()
                     
         else:
             (resource, query) = parsed
-            
+
             if resource == 'posts' and query.get('category_id'):
                 response = get_post_by_category(query['category_id'][0])
-                
+
             if resource == 'posts' and query.get('user_id'):
                 response = get_posts_by_user(query['user_id'][0])
+
+            if resource == 'tags' and query.get('post_id'):
+                response = get_tags_by_post(query['post_id'][0])
                 
         self.wfile.write(json.dumps(response).encode())
-                
-
 
     def do_POST(self):
         """Make a post request to the server"""
@@ -110,19 +151,65 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = login_user(post_body)
         if resource == 'register':
             response = create_user(post_body)
-            
+
+        if resource == 'users':
+            response = create_user(post_body)
+
         if resource == 'posts':
             response = create_post(post_body)
+            
+        if resource == 'tags':
+            response = create_tag(post_body)
 
         self.wfile.write(json.dumps(response).encode())
 
     def do_PUT(self):
-        """Handles PUT requests to the server"""
-        pass
+
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        if resource == "users":
+            success = update_user(id, post_body)
+        
+        if resource == "posts":
+            success = update_post(id, post_body)
+            
+        if resource == "tags":
+            success = update_tag(id, post_body)
+
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+            
+
+
+
+            
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """Handle DELETE Requests"""
-        pass
+        self._set_headers(204)
+        
+        (resource, id) = self.parse_url(self.path)
+        
+        if resource == "posts":
+            delete_post(id)
+            
+        if resource == "tags":
+            delete_tag(id)
+        
+        if resource == "users":
+            delete_user(id)
+            
+        self.wfile.write("".encode())
 
 
 def main():
