@@ -8,14 +8,17 @@ from views import (
     create_post,
     create_tag,
     create_comment,
+    create_category,
     get_all_users,
     get_all_posts,
     get_all_tags,
     get_all_comments,
+    get_all_categories,
     get_single_user,
     get_single_post,
     get_single_tag,
     get_single_comment,
+    get_single_category,
     get_post_by_category,
     get_posts_by_user,
     get_tags_by_post,
@@ -29,7 +32,6 @@ from views import (
     delete_post,
     delete_tag,
     delete_comment
-)
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
@@ -110,15 +112,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_post(id)
                 else:
                     response = get_all_posts()
-
-
+    
             if resource == "users":
                 if id is not None:
                     response = get_single_user(id)
                 else:
                     response = get_all_users()
 
-                
             if resource == 'tags':
                 if id is not None:
                     response = get_single_tag(id)
@@ -130,7 +130,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_comment(id)
                 else:
                     response = get_all_comments()
-                    
+  
+            if resource == 'categories':
+                if id is not None:
+                    response = get_single_category(id)
+                else:
+                    response = get_all_categories()
+  
         else:
             (resource, query) = parsed
 
@@ -170,6 +176,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == 'posts':
             response = create_post(post_body)
             
+        if resource == 'catergories':
+            response = create_category(post_body)
+  
         if resource == 'tags':
             response = create_tag(post_body)
                         
