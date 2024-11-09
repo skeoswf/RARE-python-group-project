@@ -3,7 +3,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 
 from views import create_user, login_user, create_post, get_all_posts, get_single_post, get_post_by_category, get_posts_by_user, update_post, delete_post
-
+from views import create_comment, get_all_comments, get_single_comment, get_comment_by_user, get_comment_by_post, update_comment, delete_comment
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
