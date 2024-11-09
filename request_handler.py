@@ -2,30 +2,34 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from urllib.parse import urlparse, parse_qs
 
-
 from views import (
     login_user,
     create_user,
     create_post,
     create_tag,
+    create_comment,
     get_all_users,
     get_all_posts,
     get_all_tags,
+    get_all_comments,
     get_single_user,
     get_single_post,
     get_single_tag,
+    get_single_comment,
     get_post_by_category,
     get_posts_by_user,
     get_tags_by_post,
+    get_comment_by_user,
+    get_comment_by_post,
     update_user,
     update_post,
     update_tag,
+    update_comment,
     delete_user,
     delete_post,
-    delete_tag
+    delete_tag,
+    delete_comment
 )
-
-
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
