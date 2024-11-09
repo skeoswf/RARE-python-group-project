@@ -93,9 +93,13 @@ INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image
 
 INSERT INTO Users (first_name, last_name, email, bio, username, password, profile_image_url, created_on, active) VALUES ('Cody', 'Keener', 'codymkeener@gmail.com', 'Wow', 'ckeener', 'test', 'https://www.test.com/test-image', '2024-11-04', 1)
 
-INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 1)
+INSERT INTO Tags ('label') VALUES ('Test Tag');
 
-SELECT * FROM PostTags
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 1)
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 3)
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES (1, 5)
+
+SELECT * FROM Tags
 
 SELECT
         p.id,
@@ -161,3 +165,44 @@ SELECT
     JOIN PostTags pt
       ON t.id = pt.tag_id
     WHERE pt.post_id = 1
+
+SELECT
+        p.id,
+        p.user_id,
+        p.category_id,
+        p.title,
+        p.publication_date,
+        p.image_url,
+        p.content,
+        p.approved,
+        c.id categoryId,
+        c.label,
+        u.id userId,
+        u.first_name,
+        u.last_name,
+        u.email,
+        u.bio,
+        u.username,
+        u.password,
+        u.profile_image_url,
+        u.created_on,
+        u.active,
+        pt.id,
+        pt.post_id,
+        pt.tag_id,
+        t.id,
+        t.label
+    FROM Posts p
+    LEFT JOIN Categories c
+        ON p.category_id = c.id
+    LEFT JOIN Users u
+        ON p.user_id = u.id
+    LEFT JOIN PostTags pt
+      ON  pt.post_id = p.id
+    LEFT JOIN Tags t
+      ON t.id = pt.tag_id
+
+SELECT * FROM PostTags
+
+DELETE FROM PostTags
+WHERE tag_id = 4
