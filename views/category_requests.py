@@ -21,7 +21,7 @@ CATEGORIES = [
     }
 ]
 def get_all_categories():
-  with sqlite3.connect("./db.sqlite3") as conn:
+    with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
@@ -31,7 +31,7 @@ def get_all_categories():
             c.label
         FROM categories c
         """)
-
+        
         categories = []
 
         dataset = db_cursor.fetchall()
@@ -42,7 +42,7 @@ def get_all_categories():
 
             categories.append(category.__dict__) 
 
-  return categories
+    return categories
 
 def get_single_category(id):
     with sqlite3.connect("./db.sqlite3") as conn:
@@ -61,7 +61,7 @@ def get_single_category(id):
         category = Category(data['id'], data['label'],)
 
         return category.__dict__
-      
+
 def create_category(new_category):
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
@@ -78,3 +78,34 @@ def create_category(new_category):
         new_category['id'] = id
 
     return new_category
+
+def delete_category(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+    
+        db_cursor = conn.cursor()
+    
+    db_cursor.execute("""
+            DELETE FROM Category
+            WHERE id = ?
+    """, ( id, ))
+
+def update_category(id, new_category):
+    with sqlite3.connect("./db.sqlite3") as conn:
+    
+        db_cursor = conn.cursor()
+    
+    db_cursor.execute("""
+    UPDATE Category
+    SET
+        id = ?,
+        label = ?,
+
+    WHERE id = ?
+    """, (new_category['id'], new_category['label'],))
+
+    rows_affected = db_cursor.rowcount
+    
+    if rows_affected == 0:
+        return False
+    else:
+        return True
