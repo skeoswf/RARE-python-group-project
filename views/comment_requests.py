@@ -31,7 +31,8 @@ def get_all_comments():
       
       comments.append(comment.__dict__)
       
-  return comment
+return comments
+
 
 def get_single_comment(id):
   with sqlite3.connect("./db.sqlite3") as conn:

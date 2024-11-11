@@ -127,13 +127,19 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = get_single_tag(id)
                 else:
                     response = get_all_tags()
+                    
+            if resource == 'comments':
+                if id is not None:
+                    response = get_single_comment(id)
+                else:
+                    response = get_all_comments()
   
             if resource == 'categories':
                 if id is not None:
                     response = get_single_category(id)
                 else:
                     response = get_all_categories()
-
+  
         else:
             (resource, query) = parsed
 
@@ -145,6 +151,12 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == 'tags' and query.get('post_id'):
                 response = get_tags_by_post(query['post_id'][0])
+
+            if resource == 'comments' and query.get('author_id'):
+                response = get_comment_by_user(query['author_id'][0])
+
+            if resource == 'comments' and query.get('post_id'):
+                response = get_comment_by_post(query['post_id'][0])
                 
         self.wfile.write(json.dumps(response).encode())
 
@@ -172,6 +184,9 @@ class HandleRequests(BaseHTTPRequestHandler):
   
         if resource == 'tags':
             response = create_tag(post_body)
+                        
+        if resource == 'comments':
+            response = create_comment(post_body)
 
         self.wfile.write(json.dumps(response).encode())
 
@@ -197,17 +212,15 @@ class HandleRequests(BaseHTTPRequestHandler):
             
         if resource == "tags":
             success = update_tag(id, post_body)
-
+            
+        if resource == "comments":
+            success = update_comment(id, post_body)
 
         if success:
             self._set_headers(204)
         else:
             self._set_headers(404)
-            
-
-
-
-            
+                   
         self.wfile.write("".encode())
 
     def do_DELETE(self):
@@ -227,6 +240,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         
         if resource == "users":
             delete_user(id)
+        
+        if resource == "comments":
+            delete_comment(id)
             
         self.wfile.write("".encode())
 
