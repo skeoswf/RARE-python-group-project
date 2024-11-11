@@ -33,6 +33,7 @@ def get_all_comments():
       
 return comments
 
+
 def get_single_comment(id):
   with sqlite3.connect("./db.sqlite3") as conn:
     
@@ -56,7 +57,7 @@ def get_single_comment(id):
     
     data = db_cursor.fetchone()
     
-    comment = Comment(row['id'], row['author_id'], row['post_id'], row['content'])
+    comment = Comment(data['id'], data['author_id'], data['post_id'], data['content'])
     
   return comment.__dict__
 
@@ -76,7 +77,7 @@ def create_comment(new_comment):
     
     new_comment['id'] = id
     
-  return new_post
+  return new_comment
 
 def delete_comment(id):
   with sqlite3.connect("./db.sqlite3") as conn:

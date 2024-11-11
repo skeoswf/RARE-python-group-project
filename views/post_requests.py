@@ -1,6 +1,5 @@
 import sqlite3
-from models import Post, Tag
-# , Category, User
+from models import Post, Category, User, Tag
 
 def get_all_posts():
   with sqlite3.connect("./db.sqlite3") as conn:
@@ -84,13 +83,13 @@ def get_all_posts():
       
       post = Post(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
       
-      # category = Category(row['categoryId'], row['label'])
+      category = Category(row['categoryId'], row['label'])
       
-      # user = User(row['userId'], row['first_name'], row['last_name'], row['email'], row['bio'], row['username'], row['password'], row['profile_image_url'], row['created_on'], row['active'])
+      user = User(row['userId'], row['first_name'], row['last_name'], row['email'], row['bio'], row['username'], row['password'], row['profile_image_url'], row['created_on'], row['active'])
       
-      # post.category = category.serialized()
+      post.category = category.serialized()
       
-      # post.user = user.serialized()
+      post.user = user.serialized()
       
       tagDataset = tags_db_cursor.fetchall()
     

@@ -6,6 +6,7 @@ from views import (
     login_user,
     create_user,
     create_post,
+    create_category,
     create_tag,
     create_comment,
     create_category,
@@ -26,13 +27,15 @@ from views import (
     get_comment_by_post,
     update_user,
     update_post,
+    update_category,
     update_tag,
     update_comment,
     delete_user,
     delete_post,
+    delete_category,
     delete_tag,
     delete_comment
-
+)
 class HandleRequests(BaseHTTPRequestHandler):
     """Handles the requests to this server"""
     # I can't figure out how to make this work, so I'm switching to the parse_url from kennels
@@ -200,8 +203,12 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "users":
             success = update_user(id, post_body)
         
+        if resource == "categories":
+            success = update_category(id, post_body)
+
         if resource == "posts":
             success = update_post(id, post_body)
+            
             
         if resource == "tags":
             success = update_tag(id, post_body)
@@ -225,6 +232,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "posts":
             delete_post(id)
             
+        if resource == "categories":
+            delete_category(id)
+
         if resource == "tags":
             delete_tag(id)
         
