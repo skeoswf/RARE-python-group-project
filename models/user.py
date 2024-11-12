@@ -20,3 +20,11 @@ class User():
         self.profile_image_url = profile_image_url
         self.created_on = created_on
         self.active = active
+
+    def serialized(self):
+        return {
+            "id": self.id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email
+        }
