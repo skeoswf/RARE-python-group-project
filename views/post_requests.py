@@ -1,5 +1,5 @@
 import sqlite3
-from models import Post, Tag, Category, User
+from models import Post, Category, User, Tag
 
 def get_all_posts():
   with sqlite3.connect("./db.sqlite3") as conn:
