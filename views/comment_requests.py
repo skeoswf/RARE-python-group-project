@@ -27,7 +27,7 @@ def get_all_comments():
     
     for row in dataset:
       
-      comment = Comment(row['id'], row['author_id'], row['post_id'], row['content'])
+      comment = Comment(row['id'], row['authorId'], row['postId'], row['content'])
       
       comments.append(comment.__dict__)
       
@@ -57,7 +57,7 @@ def get_single_comment(id):
     
     data = db_cursor.fetchone()
     
-    comment = Comment(data['id'], data['author_id'], data['post_id'], data['content'])
+    comment = Comment(data['id'], data['authorId'], data['postId'], data['content'])
     
   return comment.__dict__
 
@@ -99,7 +99,7 @@ def update_comment(id, new_comment):
       SET
         author_id = ?,
         post_id = ?,
-        content = ?,
+        content = ?
     WHERE id = ?
     """, (new_comment['author_id'], new_comment['post_id'], new_comment['content'], id, ))
 
@@ -137,7 +137,7 @@ def get_comment_by_user(authorId):
     
     for row in dataset:
       
-      comment = Comment(row['id'], row['author_id'], row['post_id'], row['content'])
+      comment = Comment(row['id'], row['authorId'], row['postId'], row['content'])
       
       comments.append(comment.__dict__)
       
@@ -170,7 +170,7 @@ def get_comment_by_post(postId):
     
     for row in dataset:
       
-      comment = Comment(row['id'], row['author_id'], row['post_id'], row['content'])
+      comment = Comment(row['id'], row['authorId'], row['postId'], row['content'])
       
       comments.append(comment.__dict__)
       
