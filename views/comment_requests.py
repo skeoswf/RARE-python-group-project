@@ -31,7 +31,7 @@ def get_all_comments():
       
       comments.append(comment.__dict__)
       
-return comments
+  return comments
 
 
 def get_single_comment(id):
