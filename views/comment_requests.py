@@ -52,7 +52,7 @@ def get_single_comment(id):
         ON m.author_id = u.id
     LEFT JOIN Posts p
         ON m.post_id = p.id   
-    WHERE p.id = ?
+    WHERE m.id = ?
     """, ( id, ))
     
     data = db_cursor.fetchone()
