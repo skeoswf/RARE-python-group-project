@@ -26,15 +26,15 @@ from .tag_requests import (
    delete_tag
 )
 
-from .comment_requests import (
-  create_comment,
-  get_all_comments,
-  get_single_comment,
-  get_comment_by_user,
-  get_comment_by_post,
-  update_comment,
-  delete_comment
-)
+# from .comment_requests import (
+#   create_comment,
+#   get_all_comments,
+#   get_single_comment,
+#   get_comment_by_user,
+#   get_comment_by_post,
+#   update_comment,
+#   delete_comment
+# )
 
 from .category_requests import (
   get_all_categories,
