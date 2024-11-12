@@ -8,28 +8,28 @@ from views import (
     create_post,
     create_category,
     create_tag,
-    # create_comment,
+    create_comment,
     create_category,
     get_all_users,
     get_all_posts,
     get_all_tags,
-    # get_all_comments,
+    get_all_comments,
     get_all_categories,
     get_single_user,
     get_single_post,
     get_single_tag,
-    # get_single_comment,
+    get_single_comment,
     get_single_category,
     get_post_by_category,
     get_posts_by_user,
     get_tags_by_post,
-    # get_comment_by_user,
-    # get_comment_by_post,
+    get_comment_by_user,
+    get_comment_by_post,
     update_user,
     update_post,
     update_category,
     update_tag,
-    # update_comment,
+    update_comment,
     delete_user,
     delete_post,
     delete_category,
@@ -180,7 +180,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == 'posts':
             response = create_post(post_body)
             
-        if resource == 'catergories':
+        if resource == 'categories':
             response = create_category(post_body)
   
         if resource == 'tags':
@@ -209,7 +209,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             success = update_post(id, post_body)
-            
             
         if resource == "tags":
             success = update_tag(id, post_body)
